@@ -1,2 +1,2 @@
 # practicingR
-just my practice to prep for dissertation stuff! 
+i'm gonna get really good at this stuff watch out 
