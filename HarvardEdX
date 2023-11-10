@@ -1,0 +1,37 @@
+# Week 1 exercises; Recap R
+
+library(devtools)
+install_github("genomicsclass/GSE5859Subset", force = TRUE)
+library(GSE5859Subset)
+data(GSE5859Subset)
+
+dim(geneExpression) #shows number of genes and samples
+
+head(sampleInfo) 
+dim(geneAnnotation)
+
+#Q1 number of samples on specific date
+unique(sampleInfo$date)
+sum(sampleInfo$date=="2005-06-27")
+
+#Q2 number of samples w chr Y
+sum(geneAnnotation$CHR=="chrY", na.rm = T)
+
+#Q3 log value of gene
+loc <- which(geneAnnotation$SYMBOL=="ARPC1A")
+gen <- which(sampleInfo$date=="2005-06-10")
+geneExpression[loc, gen]
+
+#Q4 median value of each columnn
+x <- apply(geneExpression,2,median)
+median(x)
+
+#Q5 p value work then the smallest one
+func <- function(e,group){
+  x <- e[group==1]
+  y <- e[group==0]
+  t.test(x,y)$p.value
+}
+g <- factor(sampleInfo$group)
+pvals <- apply(geneExpression,1,func, group=g)
+min(pvals)
